@@ -50,7 +50,7 @@ app.post('/devnex', async (request, reply) => {
       return { message: 'Pessoal Cadastrada', nome, email, texto, vazio }
     } else {
       console.log('error post')
-      reply.code(400).send({ message: 'Erro' })
+      return { message: 'Error, sem cadastro' }
     }
   } catch (error) {
     console.error('Erro:', error)
