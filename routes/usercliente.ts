@@ -68,8 +68,8 @@ export async function userCliRoutes(app: FastifyInstance) {
         email: z.string().email(), // Validar se é um email válido
         nome: z.string(),
         senha: z.string(),
-        cpf: z.number(),
-        telefone: z.number(),
+        cpf: z.string(),
+        telefone: z.string(),
         endereco: z.object({
           estado: z.string(),
           cidade: z.string(),
@@ -82,6 +82,8 @@ export async function userCliRoutes(app: FastifyInstance) {
       const { email, nome, senha, cpf, telefone, endereco } = userSchema.parse(
         request.body,
       )
+
+      console.log(userSchema.parse(request.body))
 
       // Criar um novo usuário no banco de dados
       const newUser = await prisma.userCliente.create({
@@ -106,13 +108,24 @@ export async function userCliRoutes(app: FastifyInstance) {
           Endereco: true,
         },
       })
-
+      console.log(newUser)
       // Enviar resposta com o novo usuário criado
-      return reply.code(201).send(newUser)
-    } catch (error) {
-      console.error('Erro ao criar usuário:', error)
-      // Enviar resposta de erro com código 400
-      reply.code(400).send({ message: 'Erro ao criar usuário.' })
+      return reply.code(201).send({ message: 'Usuário criado com sucesso' })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      // Verificar se o erro é de violação de unicidade de email ou cpf
+      if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
+        return reply.code(400).send({ message: 'E-mail já está em uso.' })
+      } else if (
+        error.code === 'P2002' &&
+        error.meta?.target?.includes('cpf')
+      ) {
+        return reply.code(400).send({ message: 'CPF já está em uso.' })
+      } else {
+        console.error('Erro ao criar usuário:', error)
+        // Enviar resposta de erro genérico com código 400
+        return reply.code(400).send({ message: 'Erro ao criar usuário.' })
+      }
     }
   })
 
@@ -137,8 +150,8 @@ export async function userCliRoutes(app: FastifyInstance) {
         email: z.string().email().optional(), // Validar se é um email válido
         nome: z.string().optional(),
         senha: z.string().optional(),
-        cpf: z.number().optional(),
-        telefone: z.number().optional(),
+        cpf: z.string().optional(),
+        telefone: z.string().optional(),
       })
       const { email, nome, telefone, cpf, senha } = bodySchema.parse(
         request.body,

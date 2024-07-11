@@ -75,7 +75,7 @@ export async function userEstRoutes(app: FastifyInstance) {
         email: z.string().email(), // Validar se é um email válido
         nome: z.string(),
         senha: z.string(),
-        cpf: z.number(),
+        cpf: z.string(),
         telefone: z.number(),
         endereco: z.object({
           estado: z.string(),
@@ -167,7 +167,7 @@ export async function userEstRoutes(app: FastifyInstance) {
         nome: z.string().optional(),
         email: z.string().email().optional(), // Validar se é um email válido
         senha: z.string().optional(),
-        cpf: z.number().optional(),
+        cpf: z.string().optional(),
         telefone: z.number().optional(),
       })
       const { nome, email, senha, cpf, telefone } = bodySchema.parse(

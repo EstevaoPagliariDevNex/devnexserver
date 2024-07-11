@@ -105,14 +105,18 @@ export async function tiposervicoRoutes(app: FastifyInstance) {
       const bodySchema = z.object({
         nome: z.string(),
         tempoServico: z.number(),
+        valorServico: z.number(),
       })
-      const { nome, tempoServico } = bodySchema.parse(request.body)
+      const { nome, tempoServico, valorServico } = bodySchema.parse(
+        request.body,
+      )
 
       // Criar um novo tipo de serviço associado ao usuário estabelecimento
       const newTipoServico = await prisma.tipoServico.create({
         data: {
           nome,
           tempoServico,
+          valorServico,
           UserEstabelecimento: { connect: { id } },
         },
       })

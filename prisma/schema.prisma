@@ -16,7 +16,7 @@ model UserEstabelecimento {
   nome                 String
   email                String                 @unique
   senha                String
-  cpf                  Int                    @unique
+  cpf                  String                 @unique
   telefone             Int
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
@@ -32,6 +32,8 @@ model Recurso {
   id                Int                 @id @default(autoincrement())
   nome              String
   estabelecimentoId Int
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
   Estabelecimento   UserEstabelecimento @relation(fields: [estabelecimentoId], references: [id], onDelete: Cascade)
   Agenda            Agenda[]
 }
@@ -42,8 +44,8 @@ model UserCliente {
   nome      String
   email     String     @unique
   senha     String
-  cpf       Int        @unique
-  telefone  Int
+  cpf       String     @unique
+  telefone  String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Endereco  Endereco[]
@@ -61,6 +63,8 @@ model Endereco {
   cep              String
   usuarioEmpresaId Int?
   clienteId        Int?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
   UsuarioEmpresa   UserEstabelecimento? @relation(fields: [usuarioEmpresaId], references: [id], onDelete: Cascade)
   Cliente          UserCliente?         @relation(fields: [clienteId], references: [id], onDelete: Cascade)
 }
@@ -70,7 +74,10 @@ model TipoServico {
   id                    Int                 @id @default(autoincrement())
   nome                  String
   tempoServico          Int
+  valorServico          Int
   UserEstabelecimentoId Int
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
   UserEstabelecimento   UserEstabelecimento @relation(fields: [UserEstabelecimentoId], references: [id], onDelete: Cascade)
   Agenda                Agenda[]
 }
@@ -86,6 +93,8 @@ model Agenda {
   estabelecimentoId Int
   clienteId         Int
   recursoId         Int
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
   TipoServico       TipoServico         @relation(fields: [tipoServicoId], references: [id])
   Estabelecimento   UserEstabelecimento @relation(fields: [estabelecimentoId], references: [id], onDelete: Cascade)
   Cliente           UserCliente         @relation(fields: [clienteId], references: [id], onDelete: Cascade)
@@ -100,5 +109,7 @@ model HorarioFuncionamento {
   horarioAlmocoFim    String
   horarioFechamento   String
   estabelecimentoId   Int
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
   Estabelecimento     UserEstabelecimento @relation(fields: [estabelecimentoId], references: [id], onDelete: Cascade)
 }

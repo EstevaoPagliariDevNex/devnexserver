@@ -2,13 +2,13 @@ import fastify, { FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
 import jwt from '@fastify/jwt'
 import { z } from 'zod'
-// import { loginRoutes } from '../routes/login'
-// import { userEstRoutes } from '../routes/userestabelecimento'
-// import { userCliRoutes } from '../routes/usercliente'
-// import { tiposervicoRoutes } from '../routes/tiposservico'
-// import { recursoRoutes } from '../routes/recurso'
-// import { agendaservicoRoutes } from '../routes/agendaservico'
-// import { horFunRoutes } from '../routes/horariofuncionamento'
+import { loginRoutes } from '../routes/login'
+import { userEstRoutes } from '../routes/userestabelecimento'
+import { userCliRoutes } from '../routes/usercliente'
+import { tiposervicoRoutes } from '../routes/tiposservico'
+import { recursoRoutes } from '../routes/recurso'
+import { agendaservicoRoutes } from '../routes/agendaservico'
+import { horFunRoutes } from '../routes/horariofuncionamento'
 // Importe o fastify-cors
 
 const app: FastifyInstance = fastify()
@@ -21,13 +21,13 @@ app.register(jwt, {
   secret: 'AiBike8266',
 })
 
-// app.register(loginRoutes)
-// app.register(userEstRoutes)
-// app.register(userCliRoutes)
-// app.register(tiposervicoRoutes)
-// app.register(recursoRoutes)
-// app.register(agendaservicoRoutes)
-// app.register(horFunRoutes)
+app.register(loginRoutes)
+app.register(userEstRoutes)
+app.register(userCliRoutes)
+app.register(tiposervicoRoutes)
+app.register(recursoRoutes)
+app.register(agendaservicoRoutes)
+app.register(horFunRoutes)
 
 app.get('/', async () => {
   return 'Bem Vindo a DevNex GET'
