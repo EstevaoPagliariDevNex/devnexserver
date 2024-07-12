@@ -60,23 +60,6 @@ app.post('/devnex', async (request) => {
   // return { message: 'Bem Vindo a DevNex POST...🚀🚀🚀 ' }
 })
 
-app.get('/agendaservicoteste', async (request, reply) => {
-  try {
-    const users = await prisma.agenda.findMany({
-      include: {
-        TipoServico: true,
-        Estabelecimento: true,
-        Recurso: true,
-        Cliente: true,
-      },
-    })
-    return reply.code(200).send(users)
-  } catch (error) {
-    console.error('Erro ao buscar usuários:', error)
-    return reply.code(500).send({ message: 'Erro ao buscar usuários.' })
-  }
-})
-
 app
   .listen({
     port: 8080,
