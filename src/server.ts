@@ -9,7 +9,7 @@ import { tiposervicoRoutes } from '../routes/tiposservico'
 import { recursoRoutes } from '../routes/recurso'
 import { agendaservicoRoutes } from '../routes/agendaservico'
 import { horFunRoutes } from '../routes/horariofuncionamento'
-import { prisma } from '../lib/prisma'
+
 // Importe o fastify-cors
 
 const app: FastifyInstance = fastify()
